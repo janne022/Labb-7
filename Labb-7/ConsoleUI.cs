@@ -8,11 +8,18 @@ namespace Labb_7
 {
     internal class ConsoleUI
     {
+        private Menu menu;
+
+        public ConsoleUI()
+        {
+            this.menu = new Menu();
+        }
+
         public void ShowMenu()
         {
-
+            menu.ShowOptions();
         }
-        void Run()
+        void ReadInput()
         {
         
         }

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Labb_7
 {
-    // LINQ queries for fetching questions
-    internal class QuestionRepository
+    public enum MenuOptions
     {
-
+        StartQuiz = 0,
+        ManageQuiz = 1,
+        Exit = 2,
     }
 }
