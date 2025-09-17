@@ -16,7 +16,7 @@ namespace Labb_7.DBHandling
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=quiz3.db");
+            optionsBuilder.UseSqlite("Data Source=quiz4.db");
         }
     }
 }

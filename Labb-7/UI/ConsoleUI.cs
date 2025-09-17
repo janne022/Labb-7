@@ -1,6 +1,7 @@
 ﻿using Labb_7.DBHandling;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ namespace Labb_7.UI
             {MenuOptions.StartQuiz, DisplayQuestions},
             {MenuOptions.ManageQuiz, ReadInput},
             {MenuOptions.Exit, Exit}
-
         };
 
         public ConsoleUI()
@@ -24,8 +24,8 @@ namespace Labb_7.UI
         // Calls ShowOptions to get the options that the user showed, then invokes the method using a simple dictonary lookup. Dictonary may return error if MenuOptions is expanded without dictonary expansion.
         public void ShowMenu()
         {
-            Menu menu = new Menu(new string[] { "Start Quiz", "Manage Quiz", "Exit" });
-            MenuOptions chosenOption = menu.ShowOptions<MenuOptions>();
+            Menu startMenu = new Menu(new string[] { "Start Quiz", "Manage Quiz", "Exit" });
+            MenuOptions chosenOption = startMenu.ShowOptions<MenuOptions>("What would you like to do?");
             Console.Clear();
             Action action = optionMenu[chosenOption];
             action.Invoke();
@@ -34,33 +34,43 @@ namespace Labb_7.UI
         private static void ReadInput()
         {
             Console.WriteLine("Edit Quiz");
-            Menu menu = new Menu(new string[] { "Create Question", "Edit Question", "Delete Question" });
-            MenuOptions chosenOption = menu.ShowOptions<MenuOptions>();
+            Menu questionMenu = new Menu(new string[] { "Create Question", "Edit Question", "Delete Question" });
+            QuestionOptions chosenOption = questionMenu.ShowOptions<QuestionOptions>("What would you like to do?");
+            var optionList = new List<Option>();
+            Question createdQuestion = null;
+            switch (chosenOption)
+            {
+                case QuestionOptions.CreateOption:
+                    Console.Clear();
+                    Console.Write("Question Text: ");
+                    string questionInput = Console.ReadLine();
+                    // Always create 4 options
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Console.Clear();
+                        Console.Write($"Option {i + 1}: ");
+                        string optionInput = Console.ReadLine();
+                        Menu correctAnswerMenu = new Menu(new string[] { "Yes", "No" });
+                        YesNo correctAnswer = correctAnswerMenu.ShowOptions<YesNo>("Is this the correct answer?");
+                        bool isCorrectAnswer = (correctAnswer == YesNo.Yes) ? true : false;
+                        Option createdOption = new Option(optionInput, isCorrectAnswer );
+                        optionList.Add( createdOption );
+                    }
+                    createdQuestion = new Question(questionInput,optionList);
+                    break;
+                case QuestionOptions.EditOption:
+                    break;
+                case QuestionOptions.DeleteOption:
+                    break;
+            }
             using (var context = new QuizDbContext())
             {
                 // create database
-                context.Database.EnsureCreated();
-
-                // test to make a new object
-                var option = new Option
+                if (questionMenu != null)
                 {
-                    text = "Sweden",
-                    IsCorrectOption = true
-                };
-
-                var option2 = new Option
-                {
-                    text = "Denmark",
-                    IsCorrectOption = false
-                };
-                var options = new List<Option>() { option,option2 };
-                var question = new Question("Vad heter Sverige på engelska?",options);
-
-                context.Questions.Add(question);
-                context.SaveChanges();
-                foreach (var item in context.Questions)
-                {
-                    Console.WriteLine(item.Text);
+                    context.Database.EnsureCreated();
+                    context.Questions.Add(createdQuestion);
+                    context.SaveChanges();
                 }
             }
         }

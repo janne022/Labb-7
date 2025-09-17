@@ -12,7 +12,13 @@ namespace Labb_7
         // Sets this as the primary key for options
         [Key]
         public int Id { get; set; }
-        public string text { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
         public bool IsCorrectOption {get; set;}
+
+        public Option(string text, bool isCorrectOption)
+        {
+            this.Text = text;
+            this.IsCorrectOption = isCorrectOption;
+        }
     }
 }

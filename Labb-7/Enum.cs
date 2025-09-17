@@ -19,4 +19,9 @@ namespace Labb_7
         EditOption = 1,
         DeleteOption = 2,
     }
+    public enum YesNo
+    {
+        Yes = 0,
+        No = 1,
+    }
 }

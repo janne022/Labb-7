@@ -15,13 +15,14 @@ namespace Labb_7.UI
         {
             this.menuOptions = menuOptions;
         }
-        public T ShowOptions<T>() where T : Enum
+        public T ShowOptions<T>(string questionText) where T : Enum
         {
             // add error handling for if there are less enum values than menu options?
             int i = 0;
-            do
+            while (true)
             {
                 Console.Clear();
+                Console.WriteLine(questionText+"\n");
                 for (int j = 0; j < menuOptions.Length; j++)
                 {
                     Console.BackgroundColor = i == j ? ConsoleColor.White : ConsoleColor.Black;
@@ -46,7 +47,6 @@ namespace Labb_7.UI
 
                 }
             }
-            while (true);
         }
     }
 }
