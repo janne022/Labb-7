@@ -1,4 +1,6 @@
-﻿namespace Labb_7
+﻿using Labb_7.UI;
+
+namespace Labb_7
 {
     internal class Program
     {

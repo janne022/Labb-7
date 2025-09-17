@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Labb_7
+namespace Labb_7.DBHandling
 {
     // Simple CRUD interface that accepts any type of class
     internal interface IRepository<T> where T : class

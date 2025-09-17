@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Labb_7
+namespace Labb_7.UI
 {
     internal class Menu
     {
-        private string[] _menuOptions = ["Start Quiz", "Manage Quiz", "Exit"];
-        public MenuOptions ShowOptions()
+        private string[] menuOptions;
+
+        public Menu(string[] menuOptions)
         {
+            this.menuOptions = menuOptions;
+        }
+        public T ShowOptions<T>() where T : Enum
+        {
+            // add error handling for if there are less enum values than menu options?
             int i = 0;
-            while (true)
+            do
             {
                 Console.Clear();
-                for (int j = 0; j < _menuOptions.Length; j++)
+                for (int j = 0; j < menuOptions.Length; j++)
                 {
                     Console.BackgroundColor = i == j ? ConsoleColor.White : ConsoleColor.Black;
                     Console.ForegroundColor = i == j ? ConsoleColor.Black : ConsoleColor.White;
-                    Console.WriteLine(_menuOptions[j]);
+                    Console.WriteLine(menuOptions[j]);
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                 }
@@ -31,13 +38,15 @@ namespace Labb_7
                         break;
 
                     case ConsoleKey.UpArrow:
-                        if (i > 0 ) i--;
+                        if (i > 0) i--;
                         break;
                     case ConsoleKey.Enter:
-                        return (MenuOptions)i;
+                        // returns specified enum
+                        return (T)Enum.ToObject(typeof(T), i);
 
                 }
             }
+            while (true);
         }
     }
 }

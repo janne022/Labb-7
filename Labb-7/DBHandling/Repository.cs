@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Labb_7
+namespace Labb_7.DBHandling
 {
     // Helper class so that Questionrepository and Playerrepository does not have to implement their own CRUD interface
     internal class Repository<T> : IRepository<T> where T : class
