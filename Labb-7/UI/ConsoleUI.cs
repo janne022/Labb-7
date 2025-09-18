@@ -29,10 +29,9 @@ namespace Labb_7.UI
         // Calls ShowOptions to get the options that the user showed, then invokes the method using a simple dictonary lookup. Dictonary may return error if MenuOptions is expanded without dictonary expansion.
         public void ShowMenu()
         {
-            Menu startMenu = new Menu();
             while (true)
             {
-                MenuOptions chosenOption = startMenu.ShowOptions<MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz", "Exit"]);
+                MenuOptions chosenOption = Menu.ReadOption<MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz", "Exit"]);
                 Console.Clear();
                 Action action = optionMenu[chosenOption];
                 action.Invoke();
@@ -42,43 +41,35 @@ namespace Labb_7.UI
         private static void ReadInput()
         {
             Console.WriteLine("Edit Quiz");
-            var questionMenu = new Menu();
-            QuestionOptions chosenOption = questionMenu.ShowOptions<QuestionOptions>("What would you like to do?", [ "Create Question", "Edit Question", "Delete Question" ]);
+            QuestionOptions chosenOption = Menu.ReadOption<QuestionOptions>("What would you like to do?", [ "Create Question", "Edit Question", "Delete Question" ]);
             var optionList = new List<Option>();
-            Question createdQuestion = null;
             switch (chosenOption)
             {
                 case QuestionOptions.CreateOption:
                     Console.Clear();
-                    Console.Write("Question Text: ");
-                    string questionInput = Console.ReadLine();
+                    string questionInput = Menu.ReadInput("What would you like to name your question?",3,20);
                     // Always create 4 options
                     for (int i = 0; i < 4; i++)
                     {
                         Console.Clear();
                         Console.WriteLine(questionInput);
-                        Console.Write($"Option {i + 1}: ");
-                        string optionInput = Console.ReadLine();
-                        var correctAnswerMenu = new Menu();
-                        YesNo correctAnswer = correctAnswerMenu.ShowOptions<YesNo>("Is this the correct answer?",[ "Yes", "No" ]);
+                        string optionInput = Menu.ReadInput($"Choose a name for option: {i + 1}:", 3, 20);
+                        YesNo correctAnswer = Menu.ReadOption<YesNo>("Is this the correct answer?",[ "Yes", "No" ]);
                         bool isCorrectAnswer = (correctAnswer == YesNo.Yes) ? true : false;
                         Option createdOption = new Option(optionInput, isCorrectAnswer );
                         optionList.Add( createdOption );
                     }
-                    createdQuestion = new Question(questionInput,optionList);
+                    var createdQuestion = new Question(questionInput,optionList);
+                    using (var context = new QuizDbContext())
+                    {
+                        // create database
+                        new QuestionRepository(context).Add(createdQuestion);
+                    }
                     break;
                 case QuestionOptions.EditOption:
                     break;
                 case QuestionOptions.DeleteOption:
                     break;
-            }
-            using (var context = new QuizDbContext())
-            {
-                // create database
-                if (questionMenu != null)
-                {
-                    new QuestionRepository(context).Add(createdQuestion);
-                }
             }
         }
         // Responsible for starting the quiz, should create a new player and grab questions from db

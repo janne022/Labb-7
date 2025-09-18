@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Labb_7.UI
 {
-    internal class Menu
+    internal static class Menu
     {
-        public T ShowOptions<T>(string questionText, string[] menuOptions) where T : Enum
+        // Helper method to show alternatives that can be selected with arrow keys and enter
+        public static T ReadOption<T>(string questionText, string[] menuOptions) where T : Enum
         {
-            // add error handling for if there are less enum values than menu options?
             int i = 0;
             while (true)
             {
@@ -31,7 +32,6 @@ namespace Labb_7.UI
                     case ConsoleKey.DownArrow:
                         if (i < menuOptions.Length-1) i++;
                         break;
-
                     case ConsoleKey.UpArrow:
                         if (i > 0) i--;
                         break;
@@ -41,6 +41,66 @@ namespace Labb_7.UI
 
                 }
             }
+        }
+        // Helper method to take in and verify a string
+        public static string ReadInput(string questionText, int minLength = 1, int maxLength = int.MaxValue)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(questionText);
+                string? userInput = Console.ReadLine();
+                if (userInput != null)
+                {
+                    (bool, string) verifyInput = VerifyString(userInput, minLength, maxLength);
+                    if (verifyInput.Item1)
+                    {
+                        Console.WriteLine(verifyInput.Item2);
+                        return userInput;
+                    }
+                    else
+                    {
+                        Console.WriteLine(verifyInput.Item2);
+                    }
+                }
+
+            }
+        }
+        // Helper method to get an int from user input
+        public static int ReadInt(string questionText)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(questionText);
+                string? userInput = Console.ReadLine();
+                if (userInput != null)
+                {
+                    int parsedValue;
+                    bool success = int.TryParse(userInput, out parsedValue);
+                    if (success)
+                    {
+                        return parsedValue;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You must provide a real number!");
+                    }
+                }
+            }
+        }
+        // Helper method to verify string with error message
+        public static (bool, string) VerifyString(string unverifiedString, int minLength = 1, int maxLength = int.MaxValue)
+        {
+            if (unverifiedString.Length < minLength)
+            {
+                return (false, $"You must enter at least {minLength} character(s)!");
+            }
+            if (unverifiedString.Length > maxLength)
+            {
+                return (false, $"You can maximum enter {maxLength} characters");
+            }
+            return (true, "Success!");
         }
     }
 }
