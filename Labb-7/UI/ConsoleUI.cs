@@ -25,10 +25,13 @@ namespace Labb_7.UI
         public void ShowMenu()
         {
             Menu startMenu = new Menu(new string[] { "Start Quiz", "Manage Quiz", "Exit" });
-            MenuOptions chosenOption = startMenu.ShowOptions<MenuOptions>("What would you like to do?");
-            Console.Clear();
-            Action action = optionMenu[chosenOption];
-            action.Invoke();
+            while (true)
+            {
+                MenuOptions chosenOption = startMenu.ShowOptions<MenuOptions>("What would you like to do?");
+                Console.Clear();
+                Action action = optionMenu[chosenOption];
+                action.Invoke();
+            }
         }
         // This method is responsible for allowing the user to edit the quiz and inserting their own questions with options.
         private static void ReadInput()
@@ -48,6 +51,7 @@ namespace Labb_7.UI
                     for (int i = 0; i < 4; i++)
                     {
                         Console.Clear();
+                        Console.WriteLine(questionInput);
                         Console.Write($"Option {i + 1}: ");
                         string optionInput = Console.ReadLine();
                         Menu correctAnswerMenu = new Menu(new string[] { "Yes", "No" });
@@ -78,11 +82,13 @@ namespace Labb_7.UI
         private static void DisplayQuestions()
         {
             Console.WriteLine("Quiz started");
+
         }
 
         private static void Exit()
         {
             Console.WriteLine("Exiting");
+            return;
         }
     }
 }
