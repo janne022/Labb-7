@@ -19,6 +19,11 @@ namespace Labb_7.UI
 
         public ConsoleUI()
         {
+            // Make sure database and sqlite is instalized
+            using (var context = new QuizDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
             SQLitePCL.Batteries.Init();
         }
         // Calls ShowOptions to get the options that the user showed, then invokes the method using a simple dictonary lookup. Dictonary may return error if MenuOptions is expanded without dictonary expansion.
@@ -72,9 +77,7 @@ namespace Labb_7.UI
                 // create database
                 if (questionMenu != null)
                 {
-                    context.Database.EnsureCreated();
-                    context.Questions.Add(createdQuestion);
-                    context.SaveChanges();
+                    new QuestionRepository(context).Add(createdQuestion);
                 }
             }
         }
