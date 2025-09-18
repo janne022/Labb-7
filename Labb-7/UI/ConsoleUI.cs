@@ -29,10 +29,10 @@ namespace Labb_7.UI
         // Calls ShowOptions to get the options that the user showed, then invokes the method using a simple dictonary lookup. Dictonary may return error if MenuOptions is expanded without dictonary expansion.
         public void ShowMenu()
         {
-            Menu startMenu = new Menu(new string[] { "Start Quiz", "Manage Quiz", "Exit" });
+            Menu startMenu = new Menu();
             while (true)
             {
-                MenuOptions chosenOption = startMenu.ShowOptions<MenuOptions>("What would you like to do?");
+                MenuOptions chosenOption = startMenu.ShowOptions<MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz", "Exit"]);
                 Console.Clear();
                 Action action = optionMenu[chosenOption];
                 action.Invoke();
@@ -42,8 +42,8 @@ namespace Labb_7.UI
         private static void ReadInput()
         {
             Console.WriteLine("Edit Quiz");
-            Menu questionMenu = new Menu(new string[] { "Create Question", "Edit Question", "Delete Question" });
-            QuestionOptions chosenOption = questionMenu.ShowOptions<QuestionOptions>("What would you like to do?");
+            var questionMenu = new Menu();
+            QuestionOptions chosenOption = questionMenu.ShowOptions<QuestionOptions>("What would you like to do?", [ "Create Question", "Edit Question", "Delete Question" ]);
             var optionList = new List<Option>();
             Question createdQuestion = null;
             switch (chosenOption)
@@ -59,8 +59,8 @@ namespace Labb_7.UI
                         Console.WriteLine(questionInput);
                         Console.Write($"Option {i + 1}: ");
                         string optionInput = Console.ReadLine();
-                        Menu correctAnswerMenu = new Menu(new string[] { "Yes", "No" });
-                        YesNo correctAnswer = correctAnswerMenu.ShowOptions<YesNo>("Is this the correct answer?");
+                        var correctAnswerMenu = new Menu();
+                        YesNo correctAnswer = correctAnswerMenu.ShowOptions<YesNo>("Is this the correct answer?",[ "Yes", "No" ]);
                         bool isCorrectAnswer = (correctAnswer == YesNo.Yes) ? true : false;
                         Option createdOption = new Option(optionInput, isCorrectAnswer );
                         optionList.Add( createdOption );

@@ -9,13 +9,7 @@ namespace Labb_7.UI
 {
     internal class Menu
     {
-        private string[] menuOptions;
-
-        public Menu(string[] menuOptions)
-        {
-            this.menuOptions = menuOptions;
-        }
-        public T ShowOptions<T>(string questionText) where T : Enum
+        public T ShowOptions<T>(string questionText, string[] menuOptions) where T : Enum
         {
             // add error handling for if there are less enum values than menu options?
             int i = 0;
