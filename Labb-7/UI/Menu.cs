@@ -35,7 +35,7 @@ namespace Labb_7.UI
                 switch (key)
                 {
                     case ConsoleKey.DownArrow:
-                        if (i < 2) i++;
+                        if (i < menuOptions.Length-1) i++;
                         break;
 
                     case ConsoleKey.UpArrow:
