@@ -86,8 +86,8 @@ namespace Labb_7.UI
 
         private static void Exit()
         {
-            Console.WriteLine("Exiting");
-            return;
+            Console.WriteLine("Goodbye!");
+            Environment.Exit(0);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Labb_7.UI
             }
         }
         // Helper method to get an int from user input
-        public static int ReadInt(string questionText)
+        public static int ReadInt(string questionText, int minInt = 0, int maxInt = int.MaxValue)
         {
             while (true)
             {
@@ -78,13 +78,17 @@ namespace Labb_7.UI
                 {
                     int parsedValue;
                     bool success = int.TryParse(userInput, out parsedValue);
-                    if (success)
+                    if (success && parsedValue >= minInt && parsedValue <= maxInt)
                     {
                         return parsedValue;
                     }
-                    else
+                    else if (!success)
                     {
                         Console.WriteLine("You must provide a real number!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("That number is outside of the allowed range");
                     }
                 }
             }

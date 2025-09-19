@@ -32,4 +32,11 @@ namespace Labb_7
         Option3 = 2,
         Option4 = 3,
     }
+
+    public enum PlayAgain
+    {
+        Home = 0,
+        PlayAgain = 1,
+        Exit = 2,
+    }
 }

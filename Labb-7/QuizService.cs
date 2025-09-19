@@ -1,9 +1,11 @@
 ﻿using Labb_7.DBHandling;
 using Labb_7.UI;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,20 +16,30 @@ namespace Labb_7
         // Starts quiz and retrieves questions using QuestionRepository
         public static void StartQuiz(Player player)
         {
-            List<Question> questions;
-            // Retrieve questions
-            using (var context = new QuizDbContext())
+            bool replay = false;
+            do
             {
-                QuestionRepository quiz = new QuestionRepository(context);
-                // TODO: change length so it can be set by user
-                questions = quiz.getRandomQuestions(2);
+                // Retrieve questions
+                using (var context = new QuizDbContext())
+                {
+                    int questionAmount = context.Questions.Count();
+                    int roundAmount = Menu.ReadInt($"How many questions do you want? Choose from 1-{questionAmount}", 1, questionAmount);
+                    var quiz = new QuestionRepository(context);
+                    // TODO: change length so it can be set by user
+                    replay = DisplayQuestions(quiz.getRandomQuestions(roundAmount), player);
+                }
             }
+            while (replay);
+        }
+        private static bool DisplayQuestions(List<Question> questions,Player player)
+        {
             // Display questions
-            for (int i = 0; i < questions.Count(); i++)
+            for (int i = 0; i < questions.Count; i++)
             {
+                var correctOption = questions[i].Options.Where(option => option.IsCorrectOption == true);
                 Console.WriteLine($"Question {i}: Options count = {questions[i].Options?.Count}");
                 string[] optionsText = { questions[i].Options[0].Text, questions[i].Options[1].Text, questions[i].Options[2].Text, questions[i].Options[3].Text };
-                QuestionOptions userQuestion = Menu.ReadOption<QuestionOptions>(questions[i].Text,optionsText);
+                QuestionOptions userQuestion = Menu.ReadOption<QuestionOptions>(questions[i].Text, optionsText);
                 // Check if picked option is correct
                 if (questions[i].Options[((int)userQuestion)].IsCorrectOption)
                 {
@@ -40,9 +52,31 @@ namespace Labb_7
                     Console.WriteLine($"Great job! You now have {player.score} points! Click Enter for next question");
                     Console.ReadLine();
                 }
+                else
+                {
+                    string correctOptionsString = string.Join(" or ",correctOption.Select(option => option.Text));
+                    Console.WriteLine($"Ouch, not quite right. The correct answer was: {correctOptionsString}. You Currently have {player.score} points. Click Enter for next question");
+                    Console.ReadLine();
+                }
             }
+            // Show Score
+            return CalculateScore(player);
         }
-        static void AskQuestion(Question question) { }
-        static void CalculateScore(Player player) { }
+        private static bool CalculateScore(Player player)
+        {
+            var gameChoices = Menu.ReadOption<PlayAgain>($"Congrats, you finished the game with a score of: {player.score} points!.", ["Home","Play Again","Exit"]);
+            switch (gameChoices)
+            {
+                case PlayAgain.Home:
+                    return false;
+                case PlayAgain.PlayAgain:
+                    return true;
+                case PlayAgain.Exit:
+                    Console.WriteLine("Goodbye!");
+                    Environment.Exit(0);
+                    break;
+            }
+            return false;
+        }
     }
 }
