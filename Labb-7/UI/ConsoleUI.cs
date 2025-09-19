@@ -41,19 +41,17 @@ namespace Labb_7.UI
         private static void ReadInput()
         {
             Console.WriteLine("Edit Quiz");
-            QuestionOptions chosenOption = Menu.ReadOption<QuestionOptions>("What would you like to do?", [ "Create Question", "Edit Question", "Delete Question" ]);
+            ManageQuestionOptions chosenOption = Menu.ReadOption<ManageQuestionOptions>("What would you like to do?", [ "Create Question", "Edit Question", "Delete Question" ]);
             var optionList = new List<Option>();
             switch (chosenOption)
             {
-                case QuestionOptions.CreateOption:
+                case ManageQuestionOptions.CreateOption:
                     Console.Clear();
-                    string questionInput = Menu.ReadInput("What would you like to name your question?",3,20);
+                    string questionInput = Menu.ReadInput("What would you like to name your question?",3,100);
                     // Always create 4 options
                     for (int i = 0; i < 4; i++)
                     {
-                        Console.Clear();
-                        Console.WriteLine(questionInput);
-                        string optionInput = Menu.ReadInput($"Choose a name for option: {i + 1}:", 3, 20);
+                        string optionInput = Menu.ReadInput($"Choose a name for option: {i + 1}\tQuestion: {questionInput}", 3, 20);
                         YesNo correctAnswer = Menu.ReadOption<YesNo>("Is this the correct answer?",[ "Yes", "No" ]);
                         bool isCorrectAnswer = (correctAnswer == YesNo.Yes) ? true : false;
                         Option createdOption = new Option(optionInput, isCorrectAnswer );
@@ -62,21 +60,28 @@ namespace Labb_7.UI
                     var createdQuestion = new Question(questionInput,optionList);
                     using (var context = new QuizDbContext())
                     {
-                        // create database
+                        // Add question to database
                         new QuestionRepository(context).Add(createdQuestion);
                     }
                     break;
-                case QuestionOptions.EditOption:
+                case ManageQuestionOptions.EditOption:
                     break;
-                case QuestionOptions.DeleteOption:
+                case ManageQuestionOptions.DeleteOption:
                     break;
             }
         }
         // Responsible for starting the quiz, should create a new player and grab questions from db
         private static void DisplayQuestions()
         {
-            Console.WriteLine("Quiz started");
-
+            // Retrieve player name
+            string name = Menu.ReadInput("What would you like your name to be?",3,14);
+            var player = new Player(name);
+            using (var context = new QuizDbContext())
+            {
+                new PlayerRepository(context).Add(player);
+            }
+            // Start quiz
+            QuizService.StartQuiz(player);
         }
 
         private static void Exit()

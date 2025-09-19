@@ -13,7 +13,7 @@ namespace Labb_7
         ManageQuiz = 1,
         Exit = 2,
     }
-    public enum QuestionOptions
+    public enum ManageQuestionOptions
     {
         CreateOption = 0,
         EditOption = 1,
@@ -23,5 +23,13 @@ namespace Labb_7
     {
         Yes = 0,
         No = 1,
+    }
+
+    public enum QuestionOptions
+    {
+        Option1 = 0,
+        Option2 = 1,
+        Option3 = 2,
+        Option4 = 3,
     }
 }

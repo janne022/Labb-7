@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Labb_7.DBHandling
 {
-    internal class PlayerRepository : IRepository<Player>
+    internal class PlayerRepository(QuizDbContext quizDbContext) : IRepository<Player>
     {
-        public void Add(Player entity)
+        public QuizDbContext QuizDbContext = quizDbContext;
+
+        public void Add(Player player)
         {
-            throw new NotImplementedException();
+            QuizDbContext.Players.Add(player);
+            QuizDbContext.SaveChanges();
         }
 
         public void Delete(Player entity)
@@ -28,9 +31,10 @@ namespace Labb_7.DBHandling
             throw new NotImplementedException();
         }
 
-        public void Update(Player entity)
+        public void Update(Player player)
         {
-            throw new NotImplementedException();
+            QuizDbContext.Players.Update(player);
+            QuizDbContext.SaveChanges();
         }
     }
 }
