@@ -36,7 +36,7 @@ namespace Labb_7
             // Display questions
             for (int i = 0; i < questions.Count; i++)
             {
-                var correctOption = questions[i].Options.Where(option => option.IsCorrectOption == true);
+                var correctOption = questions[i].Options.Where(option => option.IsCorrectOption);
                 Console.WriteLine($"Question {i}: Options count = {questions[i].Options?.Count}");
                 string[] optionsText = { questions[i].Options[0].Text, questions[i].Options[1].Text, questions[i].Options[2].Text, questions[i].Options[3].Text };
                 QuestionOptions userQuestion = Menu.ReadOption<QuestionOptions>(questions[i].Text, optionsText);
