@@ -18,14 +18,16 @@ namespace Labb_7.DBHandling
             QuizDbContext.SaveChanges();
         }
 
-        public void Delete(Question entity)
+        public void Delete(Question question)
         {
-            throw new NotImplementedException();
+            QuizDbContext.Questions.Remove(question);
+            QuizDbContext.SaveChanges();
         }
-
+        // Returns all questions with options as an IEnumerable
         public IEnumerable<Question> GetAll()
         {
-            throw new NotImplementedException();
+
+                return QuizDbContext.Questions.Include(question => question.Options);
         }
 
         public Question GetById(int id)
@@ -41,16 +43,13 @@ namespace Labb_7.DBHandling
         public List<Question> getRandomQuestions(int amount)
         {
             Random random = new Random();
-            using (var context = new QuizDbContext())
-            {
-                if (amount <= context.Questions.Count())
+                if (amount <= QuizDbContext.Questions.Count())
                 {
                     // Orders by random, then takes amount, include options for question and return as list
-                    var list = context.Questions.OrderBy(question => EF.Functions.Random()).Take(amount).Include(question => question.Options).ToList();
+                    var list = QuizDbContext.Questions.OrderBy(question => EF.Functions.Random()).Take(amount).Include(question => question.Options).ToList();
                     return list;
 
                 }
-            }
             return new List<Question>();
         }
     }

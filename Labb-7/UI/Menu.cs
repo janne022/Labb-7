@@ -42,6 +42,38 @@ namespace Labb_7.UI
                 }
             }
         }
+        // Helper method to show alternatives that can be selected with arrow keys and enter, made for int
+        public static int ReadOption(string questionText, string[] menuOptions)
+        {
+            int i = 0;
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(questionText + "\n");
+                for (int j = 0; j < menuOptions.Length; j++)
+                {
+                    Console.BackgroundColor = i == j ? ConsoleColor.White : ConsoleColor.Black;
+                    Console.ForegroundColor = i == j ? ConsoleColor.Black : ConsoleColor.White;
+                    Console.WriteLine(menuOptions[j]);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                ConsoleKey key = Console.ReadKey().Key;
+                switch (key)
+                {
+                    case ConsoleKey.DownArrow:
+                        if (i < menuOptions.Length - 1) i++;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (i > 0) i--;
+                        break;
+                    case ConsoleKey.Enter:
+                        // returns specified enum
+                        return i;
+
+                }
+            }
+        }
         // Helper method to take in and verify a string
         public static string ReadInput(string questionText, int minLength = 1, int maxLength = int.MaxValue)
         {
