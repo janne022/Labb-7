@@ -16,14 +16,15 @@ namespace Labb_7.DBHandling
             QuizDbContext.SaveChanges();
         }
 
-        public void Delete(Player entity)
+        public void Delete(Player player)
         {
-            throw new NotImplementedException();
+            QuizDbContext.Remove(player);
+            QuizDbContext.SaveChanges();
         }
 
         public IEnumerable<Player> GetAll()
         {
-            throw new NotImplementedException();
+            return QuizDbContext.Players;
         }
 
         public Player GetById(int id)

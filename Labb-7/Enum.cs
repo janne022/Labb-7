@@ -11,7 +11,8 @@ namespace Labb_7
     {
         StartQuiz = 0,
         ManageQuiz = 1,
-        Exit = 2,
+        Leaderboard = 2,
+        Exit = 3,
     }
     public enum ManageQuestionOptions
     {

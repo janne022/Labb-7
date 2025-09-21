@@ -14,6 +14,7 @@ namespace Labb_7.UI
         {
             {MenuOptions.StartQuiz, DisplayQuestions},
             {MenuOptions.ManageQuiz, ReadInput},
+            {MenuOptions.Leaderboard, DisplayLeaderboard},
             {MenuOptions.Exit, Exit}
         };
 
@@ -31,7 +32,7 @@ namespace Labb_7.UI
         {
             while (true)
             {
-                MenuOptions chosenOption = Menu.ReadOption<MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz", "Exit"]);
+                MenuOptions chosenOption = Menu.ReadOption<MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz","Leaderboard","Exit"]);
                 Console.Clear();
                 Action action = optionMenu[chosenOption];
                 action.Invoke();
@@ -44,22 +45,11 @@ namespace Labb_7.UI
             do
             {
                 ManageQuestionOptions chosenOption = Menu.ReadOption<ManageQuestionOptions>("What would you like to do?", ["Create Question", "Edit Question", "Delete Question", "Back"]);
-                var optionList = new List<Option>();
                 switch (chosenOption)
                 {
                     case ManageQuestionOptions.CreateOption:
                         Console.Clear();
-                        string questionInput = Menu.ReadInput("What would you like to name your question?", 3, 100);
-                        // Always create 4 options
-                        for (int i = 0; i < 4; i++)
-                        {
-                            string optionInput = Menu.ReadInput($"Choose a name for option: {i + 1}\tQuestion: {questionInput}", 3, 20);
-                            YesNo correctAnswer = Menu.ReadOption<YesNo>("Is this the correct answer?", ["Yes", "No"]);
-                            bool isCorrectAnswer = (correctAnswer == YesNo.Yes) ? true : false;
-                            Option createdOption = new Option(optionInput, isCorrectAnswer);
-                            optionList.Add(createdOption);
-                        }
-                        var createdQuestion = new Question(questionInput, optionList);
+                        Question createdQuestion = CreateQuestion();
                         using (var context = new QuizDbContext())
                         {
                             // Add question to database
@@ -67,19 +57,44 @@ namespace Labb_7.UI
                         }
                         break;
                     case ManageQuestionOptions.EditOption:
-
-                        break;
+                        do
+                        {
+                            Console.Clear();
+                            using (var context = new QuizDbContext())
+                            {
+                                // Get all questions and also create an array of only the question text
+                                var questionRepository = new QuestionRepository(context);
+                                var questions = questionRepository.GetAll().ToList();
+                                questions.Add(new Question("Back", new List<Option>()));
+                                var questionStrings = questions.Select(q => q.Text).ToArray();
+                                // List up all questions with readoption
+                                int optionInput = Menu.ReadOption($"Which question would you like to edit?", questionStrings);
+                                if (optionInput == questionStrings.Length - 1)
+                                {
+                                    return;
+                                }
+                                // Make user create new question, then swap out values in originalQuestion with new question
+                                Question editedQuestion = CreateQuestion();
+                                Question originalQuestion = questions[optionInput];
+                                originalQuestion.Text = editedQuestion.Text;
+                                originalQuestion.Options = editedQuestion.Options;
+                                // Update original object in database
+                                questionRepository.Update(originalQuestion);
+                            }
+                        }
+                        while (true);
                     case ManageQuestionOptions.DeleteOption:
                         do
                         {
                             Console.Clear();
                             using (var context = new QuizDbContext())
                             {
+                                // Get all questions and also create an array of only the question text
                                 var questionRepository = new QuestionRepository(context);
                                 var questions = questionRepository.GetAll().ToList();
                                 questions.Add(new Question("Back", new List<Option>()));
                                 var questionStrings = questions.Select(q => q.Text).ToArray();
-
+                                // List up all questions with readoption
                                 int optionInput = Menu.ReadOption($"Which question would you like to delete?", questionStrings);
                                 if (optionInput == questionStrings.Length - 1)
                                 {
@@ -89,13 +104,13 @@ namespace Labb_7.UI
                                 bool isCertain = (removeQuestionInput == YesNo.Yes) ? true : false;
                                 if (isCertain)
                                 {
+                                    // Delete question
                                     var removeQuestion = questions[optionInput];
                                     questionRepository.Delete(removeQuestion);
                                 }
                             }
                         }
                         while (true);
-                        break;
                     case ManageQuestionOptions.Back:
                         continueLoop = false;
                         break;
@@ -107,7 +122,7 @@ namespace Labb_7.UI
         private static void DisplayQuestions()
         {
             // Retrieve player name
-            string name = Menu.ReadInput("What would you like your name to be?",3,14);
+            string name = Menu.ReadInput("What would you like your name to be?",1,14);
             var player = new Player(name);
             using (var context = new QuizDbContext())
             {
@@ -116,7 +131,41 @@ namespace Labb_7.UI
             // Start quiz
             QuizService.StartQuiz(player);
         }
-
+        // Display leaderboard
+        private static  void DisplayLeaderboard()
+        {
+            using (var context = new QuizDbContext())
+            {
+                // Get all players and sort them in descending order via player score
+                var playerRepository = new PlayerRepository(context);
+                var players = playerRepository.GetAll().OrderByDescending(p => p.score).ToArray();
+                // Print out player and score
+                Console.WriteLine("Player\t\tScore");
+                for (int i = 0; i < players.Length; i++)
+                {
+                    Console.WriteLine($"{players[i].name}\t\t{players[i].score}");
+                }
+                Console.WriteLine("\nPress Enter to go back to the Main Menu");
+                Console.ReadLine();
+            }
+        }
+        private static Question CreateQuestion()
+        {
+            var optionList = new List<Option>();
+            // Ask for question text
+            string questionInput = Menu.ReadInput("Type in your question:", 3, 100);
+            // Ask for 4 options, every question can be correct or false currently
+            for (int i = 0; i < 4; i++)
+            {
+                string optionInput = Menu.ReadInput($"Choose a name for option: {i + 1}\tQuestion: {questionInput}", 1, 100);
+                YesNo correctAnswer = Menu.ReadOption<YesNo>("Is this the correct answer?", ["Yes", "No"]);
+                bool isCorrectAnswer = (correctAnswer == YesNo.Yes) ? true : false;
+                Option createdOption = new Option(optionInput, isCorrectAnswer);
+                optionList.Add(createdOption);
+            }
+            return new Question(questionInput, optionList);
+        }
+        // Exits the program
         private static void Exit()
         {
             Console.WriteLine("Goodbye!");

@@ -26,8 +26,7 @@ namespace Labb_7.DBHandling
         // Returns all questions with options as an IEnumerable
         public IEnumerable<Question> GetAll()
         {
-
-                return QuizDbContext.Questions.Include(question => question.Options);
+            return QuizDbContext.Questions.Include(question => question.Options);
         }
 
         public Question GetById(int id)
@@ -35,9 +34,10 @@ namespace Labb_7.DBHandling
             throw new NotImplementedException();
         }
 
-        public void Update(Question entity)
+        public void Update(Question question)
         {
-            throw new NotImplementedException();
+            QuizDbContext.Update(question);
+            QuizDbContext.SaveChanges();
         }
         // Gets random questions and returns a list
         public List<Question> getRandomQuestions(int amount)
