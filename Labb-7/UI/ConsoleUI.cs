@@ -138,7 +138,7 @@ namespace Labb_7.UI
             {
                 // Get all players and sort them in descending order via player score
                 var playerRepository = new PlayerRepository(context);
-                var players = playerRepository.GetAll().OrderByDescending(p => p.score).ToArray();
+                var players = playerRepository.GetAll().OrderByDescending(p => p.score).Where(p => p.score > 0).ToArray();
                 // Print out player and score
                 Console.WriteLine("Player\t\tScore");
                 for (int i = 0; i < players.Length; i++)

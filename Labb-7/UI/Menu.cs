@@ -68,7 +68,34 @@ namespace Labb_7.UI
                         if (i > 0) i--;
                         break;
                     case ConsoleKey.Enter:
-                        // returns specified enum
+                        // returns index as int
+                        return i;
+
+                }
+            }
+        }
+        // Helper method, allow user to press right or left arrow keys to control value in middle and Enter to choose
+        public static int ReadSlider(string questionText, string[] menuOptions)
+        {
+            int i = 0;
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(questionText + "\n");
+                var sliderStructure = new StringBuilder(menuOptions[i]);
+                if (i > 0) sliderStructure.Insert(0,"<- ");
+                if (i < menuOptions.Length) sliderStructure.Append(" ->");
+                Console.WriteLine(sliderStructure);
+                ConsoleKey key = Console.ReadKey().Key;
+                switch (key)
+                {
+                    case ConsoleKey.RightArrow:
+                        if (i < menuOptions.Length - 1) i++;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (i > 0) i--;
+                        break;
+                    case ConsoleKey.Enter:
                         return i;
 
                 }

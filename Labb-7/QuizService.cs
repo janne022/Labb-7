@@ -23,7 +23,8 @@ namespace Labb_7
                 using (var context = new QuizDbContext())
                 {
                     int questionAmount = context.Questions.Count();
-                    int roundAmount = Menu.ReadInt($"How many questions do you want? Choose from 1-{questionAmount}", 1, questionAmount);
+                    string[] questionRange = Enumerable.Range(1, questionAmount).Select(q => q.ToString()).ToArray();
+                    int roundAmount = Menu.ReadSlider($"How many questions do you want? Choose from 1-{questionAmount}", questionRange);
                     var quiz = new QuestionRepository(context);
                     // TODO: change length so it can be set by user
                     replay = DisplayQuestions(quiz.getRandomQuestions(roundAmount), player);
