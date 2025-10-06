@@ -11,7 +11,7 @@ namespace Labb_7.UI
     internal static class Menu
     {
         // Helper method to show alternatives that can be selected with arrow keys and enter, made to return an Enum
-        public static T ReadOption<T>(string questionText, string[] menuOptions) where T : Enum
+        public static T ReadOption<T>(string questionText, T[] menuOptions) where T : Enum
         {
             int i = 0;
             while (true)
@@ -43,7 +43,7 @@ namespace Labb_7.UI
             }
         }
         // Helper method to show alternatives that can be selected with arrow keys and enter, made to return int
-        public static int ReadOption<T>(string questionText, T[] menuOptions)
+        public static int ReadOptionIndex<T>(string questionText, T[] menuOptions)
         {
             int i = 0;
             while (true)
