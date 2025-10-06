@@ -114,12 +114,12 @@ namespace Labb_7.UI
                     (bool, string) verifyInput = VerifyString(userInput, minLength, maxLength);
                     if (verifyInput.Item1)
                     {
-                        Console.WriteLine(verifyInput.Item2);
+                        DisplayStatus(verifyInput.Item2, ConsoleColor.Green);
                         return userInput;
                     }
                     else
                     {
-                        Console.WriteLine(verifyInput.Item2);
+                        DisplayStatus(verifyInput.Item2, ConsoleColor.Red);
                     }
                 }
 
@@ -143,11 +143,11 @@ namespace Labb_7.UI
                     }
                     else if (!success)
                     {
-                        Console.WriteLine("You must provide a real number!");
+                        DisplayStatus("Error: You must provide a real number!", ConsoleColor.Red);
                     }
                     else
                     {
-                        Console.WriteLine("That number is outside of the allowed range");
+                        DisplayStatus("Error: That number is outside of the allowed range", ConsoleColor.Red);
                     }
                 }
             }
@@ -164,6 +164,16 @@ namespace Labb_7.UI
                 return (false, $"You can maximum enter {maxLength} characters");
             }
             return (true, "Success!");
+        }
+
+        public static void DisplayStatus(string message, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine($"\n{message}");
+            Console.ResetColor();
+            Console.WriteLine("Click any key to continue...");
+            Console.ReadKey();
+
         }
     }
 }
