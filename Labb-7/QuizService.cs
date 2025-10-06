@@ -40,7 +40,15 @@ namespace Labb_7
                 var correctOption = questions[i].Options.Where(option => option.IsCorrectOption);
                 Console.WriteLine($"Question {i}: Options count = {questions[i].Options?.Count}");
                 string[] optionsText = { questions[i].Options[0].Text, questions[i].Options[1].Text, questions[i].Options[2].Text, questions[i].Options[3].Text };
-                QuestionOptions userQuestion = Menu.ReadOption<QuestionOptions>(questions[i].Text, optionsText);
+                QuestionOptions userQuestion = Menu.ReadOption<QuestionOptions>($"{ questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}", optionsText);
+                Console.Clear();
+                Console.WriteLine($"Chosen Answer: {questions[i].Options[((int)userQuestion)].Text}\t\tQuestion: {i+1}/{questions.Count}\t\tScore: {player.score}");
+                foreach (var item in questions[i].Options)
+                {
+                    Console.ForegroundColor = item.IsCorrectOption ? ConsoleColor.Green : ConsoleColor.Red;
+                    Console.WriteLine(item.Text);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
                 // Check if picked option is correct
                 if (questions[i].Options[((int)userQuestion)].IsCorrectOption)
                 {
@@ -50,15 +58,10 @@ namespace Labb_7
                         PlayerRepository playerRepository = new PlayerRepository(context);
                         playerRepository.Update(player);
                     }
-                    Console.WriteLine($"Great job! You now have {player.score} points! Click Enter for next question");
-                    Console.ReadLine();
+                    Console.WriteLine($"\nCongrats you earned {player.score} points! ");
                 }
-                else
-                {
-                    string correctOptionsString = string.Join(" or ",correctOption.Select(option => option.Text));
-                    Console.WriteLine($"Ouch, not quite right. The correct answer was: {correctOptionsString}. You Currently have {player.score} points. Click Enter for next question");
-                    Console.ReadLine();
-                }
+                Console.Write("Click Enter to continue");
+                Console.ReadLine();
             }
             // Show Score
             return CalculateScore(player);
