@@ -102,7 +102,7 @@ namespace Labb_7.UI
                         if (i > 0) i--;
                         break;
                     case ConsoleKey.Enter:
-                        return i;
+                        return i+=1;
 
                 }
             }
