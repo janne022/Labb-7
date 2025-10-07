@@ -13,6 +13,7 @@ namespace Labb_7.UI
         // Helper method to show alternatives that can be selected with arrow keys and enter, made to return an Enum
         public static TEnum ReadOption<T, TEnum>(string questionText, T[] menuOptions) where TEnum : Enum
         {
+            Console.CursorVisible = false;
             int i = 0;
             while (true)
             {
@@ -49,6 +50,7 @@ namespace Labb_7.UI
         // Helper method to show alternatives that can be selected with arrow keys and enter, made to return int
         public static int ReadOptionIndex<T>(string questionText, T[] menuOptions)
         {
+            Console.CursorVisible = false;
             int i = 0;
             while (true)
             {
