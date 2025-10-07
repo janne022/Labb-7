@@ -32,6 +32,7 @@ namespace Labb_7
             }
             while (replay);
         }
+        // Displays questions to user with a for loop as long as there is questions
         private static bool DisplayQuestions(List<Question> questions, Player player)
         {
             // Display questions
