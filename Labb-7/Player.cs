@@ -8,13 +8,13 @@ namespace Labb_7
 {
     internal class Player
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public int score { get; set; } = 0;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Score { get; set; } = 0;
 
         public Player(string name)
         {
-            this.name = name;
+            this.Name = name;
         }
     }
 }
