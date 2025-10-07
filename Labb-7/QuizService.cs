@@ -9,7 +9,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Labb_7 
+namespace Labb_7
 {
     internal static class QuizService
     {
@@ -32,7 +32,7 @@ namespace Labb_7
             }
             while (replay);
         }
-        private static bool DisplayQuestions(List<Question> questions,Player player)
+        private static bool DisplayQuestions(List<Question> questions, Player player)
         {
             // Display questions
             for (int i = 0; i < questions.Count; i++)
@@ -40,9 +40,9 @@ namespace Labb_7
                 var correctOption = questions[i].Options.Where(option => option.IsCorrectOption);
                 Console.WriteLine($"Question {i}: Options count = {questions[i].Options?.Count}");
                 string[] optionsText = { questions[i].Options[0].Text, questions[i].Options[1].Text, questions[i].Options[2].Text, questions[i].Options[3].Text };
-                int userQuestion = Menu.ReadOptionIndex<string>($"{ questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}", optionsText);
+                int userQuestion = Menu.ReadOptionIndex<string>($"{questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}", optionsText);
                 Console.Clear();
-                Console.WriteLine($"Chosen Answer: {questions[i].Options[userQuestion].Text}\t\tQuestion: {i+1}/{questions.Count}\t\tScore: {player.score}");
+                Console.WriteLine($"Chosen Answer: {questions[i].Options[userQuestion].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}");
                 foreach (var item in questions[i].Options)
                 {
                     Console.ForegroundColor = item.IsCorrectOption ? ConsoleColor.Green : ConsoleColor.Red;
@@ -50,7 +50,7 @@ namespace Labb_7
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 // Check if picked option is correct
-                if (questions[i].Options[(userQuestion].IsCorrectOption)
+                if (questions[i].Options[userQuestion].IsCorrectOption)
                 {
                     player.score += 50;
                     using (var context = new QuizDbContext())
@@ -68,7 +68,7 @@ namespace Labb_7
         }
         private static bool CalculateScore(Player player)
         {
-            var gameChoices = Menu.ReadOption<string,PlayAgain>($"Congrats, you finished the game with a score of: {player.score} points!.", ["Home","Play Again","Exit"]);
+            var gameChoices = Menu.ReadOption<string, PlayAgain>($"Congrats, you finished the game with a score of: {player.score} points!.", ["Home", "Play Again", "Exit"]);
             switch (gameChoices)
             {
                 case PlayAgain.Home:

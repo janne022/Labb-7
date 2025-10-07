@@ -32,7 +32,7 @@ namespace Labb_7.UI
         {
             while (true)
             {
-                MenuOptions chosenOption = Menu.ReadOption<string,MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz","Leaderboard","Exit"]);
+                MenuOptions chosenOption = Menu.ReadOption<string, MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz", "Leaderboard", "Exit"]);
                 Console.Clear();
                 Action action = optionMenu[chosenOption];
                 action.Invoke();
@@ -44,7 +44,7 @@ namespace Labb_7.UI
             bool continueLoop = true;
             do
             {
-                ManageQuestionOptions chosenOption = Menu.ReadOption<string,ManageQuestionOptions>("What would you like to do?", ["Create Question", "Edit Question", "Delete Question", "Back"]);
+                ManageQuestionOptions chosenOption = Menu.ReadOption<string, ManageQuestionOptions>("What would you like to do?", ["Create Question", "Edit Question", "Delete Question", "Back"]);
                 switch (chosenOption)
                 {
                     case ManageQuestionOptions.CreateOption:
@@ -122,7 +122,7 @@ namespace Labb_7.UI
         private static void DisplayQuestions()
         {
             // Retrieve player name
-            string name = Menu.ReadInput("What would you like your name to be?",1,14);
+            string name = Menu.ReadInput("What would you like your name to be?", 1, 14);
             var player = new Player(name);
             using (var context = new QuizDbContext())
             {
@@ -132,7 +132,7 @@ namespace Labb_7.UI
             QuizService.StartQuiz(player);
         }
         // Display leaderboard
-        private static  void DisplayLeaderboard()
+        private static void DisplayLeaderboard()
         {
             using (var context = new QuizDbContext())
             {
