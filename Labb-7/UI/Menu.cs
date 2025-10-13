@@ -11,13 +11,14 @@ namespace Labb_7.UI
     internal static class Menu
     {
         // Helper method to show alternatives that can be selected with arrow keys and enter, made to return an Enum
-        public static T ReadOption<T>(string questionText, T[] menuOptions) where T : Enum
+        public static TEnum ReadOption<T, TEnum>(string questionText, T[] menuOptions) where TEnum : Enum
         {
             int i = 0;
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine(questionText+"\n");
+                // Write out question and display options, currently selected index gets highlighted
+                Console.WriteLine(questionText + "\n");
                 for (int j = 0; j < menuOptions.Length; j++)
                 {
                     Console.BackgroundColor = i == j ? ConsoleColor.White : ConsoleColor.Black;
@@ -26,18 +27,21 @@ namespace Labb_7.UI
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                 }
+                // Reset color and read the key that user presses
+                Console.ResetColor();
                 ConsoleKey key = Console.ReadKey().Key;
+                // Check what user pressed and go up or down in index as long as it is within the length of menuOptions. Enter returns Enum
                 switch (key)
                 {
                     case ConsoleKey.DownArrow:
-                        if (i < menuOptions.Length-1) i++;
+                        if (i < menuOptions.Length - 1) i++;
                         break;
                     case ConsoleKey.UpArrow:
                         if (i > 0) i--;
                         break;
                     case ConsoleKey.Enter:
                         // returns specified enum
-                        return (T)Enum.ToObject(typeof(T), i);
+                        return (TEnum)Enum.ToObject(typeof(TEnum), i);
 
                 }
             }
@@ -83,7 +87,7 @@ namespace Labb_7.UI
                 Console.Clear();
                 Console.WriteLine(questionText + "\n");
                 var sliderStructure = new StringBuilder(menuOptions[i]);
-                if (i > 0) sliderStructure.Insert(0,"<- ");
+                if (i > 0) sliderStructure.Insert(0, "<- ");
                 if (i < menuOptions.Length) sliderStructure.Append(" ->");
                 Console.WriteLine(sliderStructure);
                 ConsoleKey key = Console.ReadKey().Key;

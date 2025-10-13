@@ -13,7 +13,7 @@ namespace Labb_7
         [Key]
         public int Id { get; set; }
         public string Text { get; set; } = string.Empty;
-        public bool IsCorrectOption {get; set;}
+        public bool IsCorrectOption { get; set; }
 
         public Option(string text, bool isCorrectOption)
         {

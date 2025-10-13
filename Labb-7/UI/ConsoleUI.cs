@@ -32,7 +32,7 @@ namespace Labb_7.UI
         {
             while (true)
             {
-                MenuOptions chosenOption = Menu.ReadOption<MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz","Leaderboard","Exit"]);
+                MenuOptions chosenOption = Menu.ReadOption<string, MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz", "Leaderboard", "Exit"]);
                 Console.Clear();
                 Action action = optionMenu[chosenOption];
                 action.Invoke();
@@ -44,7 +44,7 @@ namespace Labb_7.UI
             bool continueLoop = true;
             do
             {
-                ManageQuestionOptions chosenOption = Menu.ReadOption<ManageQuestionOptions>("What would you like to do?", ["Create Question", "Edit Question", "Delete Question", "Back"]);
+                ManageQuestionOptions chosenOption = Menu.ReadOption<string, ManageQuestionOptions>("What would you like to do?", ["Create Question", "Edit Question", "Delete Question", "Back"]);
                 switch (chosenOption)
                 {
                     case ManageQuestionOptions.CreateOption:
@@ -68,7 +68,7 @@ namespace Labb_7.UI
                                 questions.Add(new Question("Back", new List<Option>()));
                                 var questionStrings = questions.Select(q => q.Text).ToArray();
                                 // List up all questions with readoption
-                                int optionInput = Menu.ReadOption($"Which question would you like to edit?", questionStrings);
+                                int optionInput = Menu.ReadOptionIndex($"Which question would you like to edit?", questionStrings);
                                 if (optionInput == questionStrings.Length - 1)
                                 {
                                     return;
@@ -95,12 +95,12 @@ namespace Labb_7.UI
                                 questions.Add(new Question("Back", new List<Option>()));
                                 var questionStrings = questions.Select(q => q.Text).ToArray();
                                 // List up all questions with readoption
-                                int optionInput = Menu.ReadOption($"Which question would you like to delete?", questionStrings);
+                                int optionInput = Menu.ReadOptionIndex($"Which question would you like to delete?", questionStrings);
                                 if (optionInput == questionStrings.Length - 1)
                                 {
                                     return;
                                 }
-                                YesNo removeQuestionInput = Menu.ReadOption<YesNo>("Are you sure you wish to delete this?", ["Yes", "No"]);
+                                YesNo removeQuestionInput = Menu.ReadOption<string, YesNo>("Are you sure you wish to delete this?", ["Yes", "No"]);
                                 bool isCertain = (removeQuestionInput == YesNo.Yes) ? true : false;
                                 if (isCertain)
                                 {
@@ -122,7 +122,7 @@ namespace Labb_7.UI
         private static void DisplayQuestions()
         {
             // Retrieve player name
-            string name = Menu.ReadInput("What would you like your name to be?",1,14);
+            string name = Menu.ReadInput("What would you like your name to be?", 1, 14);
             var player = new Player(name);
             using (var context = new QuizDbContext())
             {
@@ -132,7 +132,7 @@ namespace Labb_7.UI
             QuizService.StartQuiz(player);
         }
         // Display leaderboard
-        private static  void DisplayLeaderboard()
+        private static void DisplayLeaderboard()
         {
             using (var context = new QuizDbContext())
             {
@@ -158,7 +158,7 @@ namespace Labb_7.UI
             for (int i = 0; i < 4; i++)
             {
                 string optionInput = Menu.ReadInput($"Choose a name for option: {i + 1}\tQuestion: {questionInput}", 1, 100);
-                YesNo correctAnswer = Menu.ReadOption<YesNo>("Is this the correct answer?", ["Yes", "No"]);
+                YesNo correctAnswer = Menu.ReadOption<string, YesNo>("Is this the correct answer?", ["Yes", "No"]);
                 bool isCorrectAnswer = (correctAnswer == YesNo.Yes) ? true : false;
                 Option createdOption = new Option(optionInput, isCorrectAnswer);
                 optionList.Add(createdOption);

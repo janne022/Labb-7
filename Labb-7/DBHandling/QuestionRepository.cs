@@ -43,13 +43,13 @@ namespace Labb_7.DBHandling
         public List<Question> getRandomQuestions(int amount)
         {
             Random random = new Random();
-                if (amount <= QuizDbContext.Questions.Count())
-                {
-                    // Orders by random, then takes amount, include options for question and return as list
-                    var list = QuizDbContext.Questions.OrderBy(question => EF.Functions.Random()).Take(amount).Include(question => question.Options).ToList();
-                    return list;
+            if (amount <= QuizDbContext.Questions.Count())
+            {
+                // Orders by random, then takes amount, include options for question and return as list
+                var list = QuizDbContext.Questions.OrderBy(question => EF.Functions.Random()).Take(amount).Include(question => question.Options).ToList();
+                return list;
 
-                }
+            }
             return new List<Question>();
         }
     }
