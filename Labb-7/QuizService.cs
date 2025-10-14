@@ -41,9 +41,9 @@ namespace Labb_7
                 var correctOption = questions[i].Options.Where(option => option.IsCorrectOption);
                 Console.WriteLine($"Question {i}: Options count = {questions[i].Options?.Count}");
                 string[] optionsText = { questions[i].Options[0].Text, questions[i].Options[1].Text, questions[i].Options[2].Text, questions[i].Options[3].Text };
-                int userQuestion = Menu.ReadOptionIndex<string>($"{questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}", optionsText);
+                int userQuestion = Menu.ReadOptionIndex<string>($"{questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.Score}", optionsText);
                 Console.Clear();
-                Console.WriteLine($"Chosen Answer: {questions[i].Options[userQuestion].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}");
+                Console.WriteLine($"Chosen Answer: {questions[i].Options[userQuestion].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.Score}");
                 foreach (var item in questions[i].Options)
                 {
                     Console.ForegroundColor = item.IsCorrectOption ? ConsoleColor.Green : ConsoleColor.Red;
@@ -53,13 +53,13 @@ namespace Labb_7
                 // Check if picked option is correct
                 if (questions[i].Options[userQuestion].IsCorrectOption)
                 {
-                    player.score += 50;
+                    player.Score += 50;
                     using (var context = new QuizDbContext())
                     {
                         PlayerRepository playerRepository = new PlayerRepository(context);
                         playerRepository.Update(player);
                     }
-                    Console.WriteLine($"\nCongrats you earned {player.score} points! ");
+                    Console.WriteLine($"\nCongrats you earned {player.Score} points! ");
                 }
                 Console.Write("Click Enter to continue");
                 Console.ReadLine();
@@ -69,7 +69,7 @@ namespace Labb_7
         }
         private static bool CalculateScore(Player player)
         {
-            var gameChoices = Menu.ReadOption<string, PlayAgain>($"Congrats, you finished the game with a score of: {player.score} points!.", ["Home", "Play Again", "Exit"]);
+            var gameChoices = Menu.ReadOption<string, PlayAgain>($"Congrats, you finished the game with a score of: {player.Score} points!.", ["Home", "Play Again", "Exit"]);
             switch (gameChoices)
             {
                 case PlayAgain.Home:
