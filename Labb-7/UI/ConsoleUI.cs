@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Labb_7.UI
 {
-    internal class ConsoleUI
+    public class ConsoleUI
     {
+        // Dictionary which contains an enums as key and Actions (anonymous methods)
         readonly Dictionary<MenuOptions, Action> optionMenu = new Dictionary<MenuOptions, Action>()
         {
             {MenuOptions.StartQuiz, DisplayQuestions},
@@ -35,6 +36,7 @@ namespace Labb_7.UI
                 MenuOptions chosenOption = Menu.ReadOption<string, MenuOptions>("What would you like to do?", ["Start Quiz", "Manage Quiz", "Leaderboard", "Exit"]);
                 Console.Clear();
                 Action action = optionMenu[chosenOption];
+                // Calls whatever method it got from the dictionary
                 action.Invoke();
             }
         }
@@ -106,7 +108,7 @@ namespace Labb_7.UI
                                 {
                                     // Delete question
                                     var removeQuestion = questions[optionInput];
-                                    questionRepository.Delete(removeQuestion);
+                                    questionRepository.Remove(removeQuestion);
                                 }
                             }
                         }

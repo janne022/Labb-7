@@ -1,19 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Labb_7.DBHandling
 {
-    // Uses entityframework for easier management of sqlite database
+    // Inherits DbContext, which gets us access to entity framework related methods and variables
     internal class QuizDbContext : DbContext
     {
+        // Declare properties of classes we want to save inside database and query.
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<Player> Players { get; set; }
 
+        // Set what database we are using, in this case we are using a sqlite database called quiz.db. Which is first created inside constructor of ConsoleUI
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=quiz.db");

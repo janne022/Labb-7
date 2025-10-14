@@ -7,16 +7,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Labb_7
 {
-    internal class Option
+    /// <summary>
+    /// An option for a question. Multiple options can be correct
+    /// </summary>
+    internal class Option(string text, bool isCorrectOption)
     {
+        // Declare properties, id is set automatically via EF
+        [Key]
         public int Id { get; set; }
-        public string Text { get; set; } = string.Empty;
-        public bool IsCorrectOption { get; set; }
-
-        public Option(string text, bool isCorrectOption)
-        {
-            this.Text = text;
-            this.IsCorrectOption = isCorrectOption;
-        }
+        public string Text { get; set; } = text;
+        public bool IsCorrectOption { get; set; } = isCorrectOption;
     }
 }

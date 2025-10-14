@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Labb_7.DBHandling
 {
-    // Simple CRUD interface that accepts any type of class
+    // Simple CRUD interface that accepts any type of class, should be implemented inside a Repository class that handles database updates
     internal interface IRepository<T> where T : class
     {
         void Add(T entity);
         void Update(T entity);
-        void Delete(T entity);
-        T GetById(int id);
+        void Remove(T entity);
         IEnumerable<T> GetAll();
     }
 }

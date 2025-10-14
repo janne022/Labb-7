@@ -9,29 +9,24 @@ namespace Labb_7.DBHandling
     internal class PlayerRepository(QuizDbContext quizDbContext) : IRepository<Player>
     {
         public QuizDbContext QuizDbContext = quizDbContext;
-
+        // Adds a player to database and saves changes
         public void Add(Player player)
         {
             QuizDbContext.Players.Add(player);
             QuizDbContext.SaveChanges();
         }
-
-        public void Delete(Player player)
+        // Removes a player from the database and saves changes
+        public void Remove(Player player)
         {
             QuizDbContext.Remove(player);
             QuizDbContext.SaveChanges();
         }
-
+        // Returns all players from database as a IEnumerable so they are easier to sort
         public IEnumerable<Player> GetAll()
         {
             return QuizDbContext.Players;
         }
-
-        public Player GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+        // Updates database player with a player object
         public void Update(Player player)
         {
             QuizDbContext.Players.Update(player);

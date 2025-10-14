@@ -27,7 +27,7 @@ namespace Labb_7
                     int roundAmount = Menu.ReadSlider($"How many questions do you want? Choose from 1-{questionAmount}", questionRange);
                     var quiz = new QuestionRepository(context);
                     // TODO: change length so it can be set by user
-                    replay = DisplayQuestions(quiz.getRandomQuestions(roundAmount), player);
+                    replay = DisplayQuestions(quiz.GetRandomQuestions(roundAmount), player);
                 }
             }
             while (replay);
