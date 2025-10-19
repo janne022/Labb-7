@@ -24,8 +24,10 @@ namespace Labb_7.Services
                 // Retrieve questions
                 using (var context = new QuizDbContext())
                 {
+                    // Get all questions from database
                     int questionAmount = context.Questions.Count();
                     string[] questionRange = Enumerable.Range(1, questionAmount).Select(q => q.ToString()).ToArray();
+                    // Check if there are any questions before asking the user how many questions they want to choose from
                     if (questionRange.Length > 0)
                     {
                         int roundAmount = Menu.ReadSlider($"How many questions do you want? Choose from 1-{questionAmount}", questionRange);
