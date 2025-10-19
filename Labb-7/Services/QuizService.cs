@@ -26,10 +26,18 @@ namespace Labb_7.Services
                 {
                     int questionAmount = context.Questions.Count();
                     string[] questionRange = Enumerable.Range(1, questionAmount).Select(q => q.ToString()).ToArray();
-                    int roundAmount = Menu.ReadSlider($"How many questions do you want? Choose from 1-{questionAmount}", questionRange);
-                    var quiz = new QuestionRepository(context);
-                    // TODO: change length so it can be set by user
-                    replay = DisplayQuestions(quiz.GetRandomQuestions(roundAmount), player);
+                    if (questionRange.Length > 0)
+                    {
+                        int roundAmount = Menu.ReadSlider($"How many questions do you want? Choose from 1-{questionAmount}", questionRange);
+                        var quiz = new QuestionRepository(context);
+                        replay = DisplayQuestions(quiz.GetRandomQuestions(roundAmount), player);
+                    }
+                    else
+                    {
+                        Console.WriteLine("There are no questions in the database, press any key to return to the main menu");
+                        Console.ReadKey(true);
+                        return;
+                    }
                 }
             }
             while (replay);

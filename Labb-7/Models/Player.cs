@@ -13,10 +13,5 @@ namespace Labb_7.Models
         public int Id { get; set; }
         public string Name { get; set; } = name;
         public int Score { get; set; } = 0;
-
-        public Player(string name)
-        {
-            Name = name;
-        }
     }
 }

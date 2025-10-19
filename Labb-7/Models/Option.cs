@@ -15,13 +15,7 @@ namespace Labb_7.Models
         // Declare properties, id is set automatically via EF
         [Key]
         public int Id { get; set; }
-        public string Text { get; set; } = string.Empty;
-        public bool IsCorrectOption { get; set; }
-
-        public Option(string text, bool isCorrectOption)
-        {
-            Text = text;
-            IsCorrectOption = isCorrectOption;
-        }
+        public string Text { get; set; } = text;
+        public bool IsCorrectOption { get; set; } = isCorrectOption;
     }
 }
