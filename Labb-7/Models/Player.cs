@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 namespace Labb_7.Models
 {
-    internal class Player
+    internal class Player(string name)
     {
+        // Declare properties, id is set automatically via EF
+        [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = name;
         public int Score { get; set; } = 0;
 
         public Player(string name)

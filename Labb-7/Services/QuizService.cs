@@ -29,7 +29,7 @@ namespace Labb_7.Services
                     int roundAmount = Menu.ReadSlider($"How many questions do you want? Choose from 1-{questionAmount}", questionRange);
                     var quiz = new QuestionRepository(context);
                     // TODO: change length so it can be set by user
-                    replay = DisplayQuestions(quiz.getRandomQuestions(roundAmount), player);
+                    replay = DisplayQuestions(quiz.GetRandomQuestions(roundAmount), player);
                 }
             }
             while (replay);
@@ -43,7 +43,7 @@ namespace Labb_7.Services
                 var correctOption = questions[i].Options.Where(option => option.IsCorrectOption);
                 Console.WriteLine($"Question {i}: Options count = {questions[i].Options?.Count}");
                 string[] optionsText = { questions[i].Options[0].Text, questions[i].Options[1].Text, questions[i].Options[2].Text, questions[i].Options[3].Text };
-                int userQuestion = Menu.ReadOptionIndex($"{questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.Score}", optionsText);
+                int userQuestion = Menu.ReadOptionIndex<string>($"{questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.Score}", optionsText);
                 Console.Clear();
                 Console.WriteLine($"Chosen Answer: {questions[i].Options[userQuestion].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.Score}");
                 foreach (var item in questions[i].Options)
