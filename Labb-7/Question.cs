@@ -8,7 +8,6 @@ namespace Labb_7
 {
     internal class Question
     {
-        [Key]
         public int Id { get; set; }
         public string Text { get; set; } = string.Empty;
         public List<Option> Options { get; set; }

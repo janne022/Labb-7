@@ -32,6 +32,7 @@ namespace Labb_7
             }
             while (replay);
         }
+        // Displays questions to user with a for loop as long as there is questions
         private static bool DisplayQuestions(List<Question> questions, Player player)
         {
             // Display questions
@@ -40,7 +41,7 @@ namespace Labb_7
                 var correctOption = questions[i].Options.Where(option => option.IsCorrectOption);
                 Console.WriteLine($"Question {i}: Options count = {questions[i].Options?.Count}");
                 string[] optionsText = { questions[i].Options[0].Text, questions[i].Options[1].Text, questions[i].Options[2].Text, questions[i].Options[3].Text };
-                int userQuestion = Menu.ReadOptionIndex($"{questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}", optionsText);
+                int userQuestion = Menu.ReadOptionIndex<string>($"{questions[i].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}", optionsText);
                 Console.Clear();
                 Console.WriteLine($"Chosen Answer: {questions[i].Options[userQuestion].Text}\t\tQuestion: {i + 1}/{questions.Count}\t\tScore: {player.score}");
                 foreach (var item in questions[i].Options)

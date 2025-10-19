@@ -9,8 +9,6 @@ namespace Labb_7
 {
     internal class Option
     {
-        // Sets this as the primary key for options
-        [Key]
         public int Id { get; set; }
         public string Text { get; set; } = string.Empty;
         public bool IsCorrectOption { get; set; }

@@ -68,7 +68,7 @@ namespace Labb_7.UI
                                 questions.Add(new Question("Back", new List<Option>()));
                                 var questionStrings = questions.Select(q => q.Text).ToArray();
                                 // List up all questions with readoption
-                                int optionInput = Menu.ReadOptionIndex($"Which question would you like to edit?", questionStrings);
+                                int optionInput = Menu.ReadOptionIndex<string>($"Which question would you like to edit?", questionStrings);
                                 if (optionInput == questionStrings.Length - 1)
                                 {
                                     return;
@@ -95,7 +95,7 @@ namespace Labb_7.UI
                                 questions.Add(new Question("Back", new List<Option>()));
                                 var questionStrings = questions.Select(q => q.Text).ToArray();
                                 // List up all questions with readoption
-                                int optionInput = Menu.ReadOptionIndex($"Which question would you like to delete?", questionStrings);
+                                int optionInput = Menu.ReadOptionIndex<string>($"Which question would you like to delete?", questionStrings);
                                 if (optionInput == questionStrings.Length - 1)
                                 {
                                     return;
