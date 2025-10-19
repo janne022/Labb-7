@@ -14,5 +14,7 @@ namespace Labb_7.DBHandling
         void Update(T entity);
         void Remove(T entity);
         IEnumerable<T> GetAll();
+
+        // Removed GetById since I never found a use for it.
     }
 }
