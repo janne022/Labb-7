@@ -32,7 +32,7 @@ namespace Labb_7.Services
                     {
                         int roundAmount = Menu.ReadSlider($"How many questions do you want? Choose from 1-{questionAmount}", questionRange);
                         var quiz = new QuestionRepository(context);
-                        replay = DisplayQuestions(quiz.GetRandomQuestions(roundAmount), player);
+                        replay = AskQuestion(quiz.GetRandomQuestions(roundAmount), player);
                     }
                     else
                     {
@@ -45,7 +45,7 @@ namespace Labb_7.Services
             while (replay);
         }
         // Displays questions to user with a for loop as long as there is questions
-        private static bool DisplayQuestions(List<Question> questions, Player player)
+        private static bool AskQuestion(List<Question> questions, Player player)
         {
             // Display questions
             for (int i = 0; i < questions.Count; i++)
