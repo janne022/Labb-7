@@ -1,4 +1,7 @@
-﻿using Labb_7.DBHandling;
+﻿using Labb_7.Data;
+using Labb_7.DBHandling;
+using Labb_7.Models;
+using Labb_7.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -138,12 +141,12 @@ namespace Labb_7.UI
             {
                 // Get all players and sort them in descending order via player score
                 var playerRepository = new PlayerRepository(context);
-                var players = playerRepository.GetAll().OrderByDescending(p => p.score).Where(p => p.score > 0).ToArray();
+                var players = playerRepository.GetAll().OrderByDescending(p => p.Score).Where(p => p.Score > 0).ToArray();
                 // Print out player and score
                 Console.WriteLine("Player\t\tScore");
                 for (int i = 0; i < players.Length; i++)
                 {
-                    Console.WriteLine($"{players[i].name}\t\t{players[i].score}");
+                    Console.WriteLine($"{players[i].Name}\t\t{players[i].Score}");
                 }
                 Console.WriteLine("\nPress Enter to go back to the Main Menu");
                 Console.ReadLine();

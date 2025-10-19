@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace Labb_7
+namespace Labb_7.Models
 {
     internal class Option
     {
@@ -15,8 +15,8 @@ namespace Labb_7
 
         public Option(string text, bool isCorrectOption)
         {
-            this.Text = text;
-            this.IsCorrectOption = isCorrectOption;
+            Text = text;
+            IsCorrectOption = isCorrectOption;
         }
     }
 }

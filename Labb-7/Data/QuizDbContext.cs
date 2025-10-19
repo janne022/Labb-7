@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Labb_7.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Labb_7.DBHandling
+namespace Labb_7.Data
 {
     // Uses entityframework for easier management of sqlite database
     internal class QuizDbContext : DbContext

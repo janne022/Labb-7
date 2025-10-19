@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-namespace Labb_7
+namespace Labb_7.Models
 {
     internal class Player
     {
@@ -14,7 +14,7 @@ namespace Labb_7
 
         public Player(string name)
         {
-            this.Name = name;
+            Name = name;
         }
     }
 }

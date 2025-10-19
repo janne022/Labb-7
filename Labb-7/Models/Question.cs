@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-namespace Labb_7
+namespace Labb_7.Models
 {
     internal class Question
     {
@@ -15,8 +15,8 @@ namespace Labb_7
         public Question() { }
         public Question(string text, List<Option> options)
         {
-            this.Text = text;
-            this.Options = options;
+            Text = text;
+            Options = options;
 
         }
     }
